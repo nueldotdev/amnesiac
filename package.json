@@ -1,23 +1,35 @@
 {
-  "name": "amnesiac",
+  "name": "@nueldotdev/amnesiac",
   "version": "1.0.0",
   "description": "A command-line tool to automatically generate documentation for recent codebase changes using the Gemini API.",
-  "bin": {
-    "amnesiac": "./bin/cli.js"
-  },
   "keywords": [
-    "cli",
-    "documentation",
-    "AI",
-    "gemini",
-    "google",
-    "doc",
-    "generation",
-    "llm"
+    "cli-tool",
+    "documentation-generator",
+    "changelog",
+    "auto-docs",
+    "git-diff",
+    "git-integration",
+    "ai-powered",
+    "gemini-api",
+    "llm",
+    "google-ai",
+    "developer-tools",
+    "productivity"
   ],
+  "homepage": "https://github.com/nueldotdev/amnesiac#readme",
+  "bugs": {
+    "url": "https://github.com/nueldotdev/amnesiac/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nueldotdev/amnesiac.git"
+  },
+  "license": "MIT",
   "author": "nueldotdev",
-  "license": "ISC",
   "type": "module",
+  "bin": {
+    "amnesiac": "bin/cli.js"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "commander": "^14.0.1",
