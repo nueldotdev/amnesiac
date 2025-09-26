@@ -1,0 +1,20 @@
+# Ignore local config and environment files
+amnesiac.config.*
+.env
+.DS_Store
+
+# Ignore node modules and logs
+node_modules/
+
+*.log
+
+# Ignore test and coverage directories
+test/
+tests/
+coverage/
+
+# Ignore IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo

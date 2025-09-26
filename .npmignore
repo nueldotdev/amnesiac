@@ -1,0 +1,24 @@
+# Ignore all files so that nothing is published to npm except what is explicitly whitelisted in package.json "files" or .npmignore negations
+
+*
+!.npmignore
+!bin/
+!lib/
+!package.json
+!README.md
+!LICENSE
+
+# Ignore config, test, and local files
+amnesiac.config.*
+.env
+.DS_Store
+node_modules/
+test/
+tests/
+coverage/
+.idea/
+.vscode/
+*.log
+*.local
+*.swp
+*.swo
