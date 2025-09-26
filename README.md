@@ -40,7 +40,7 @@ To install Amnesiac, you will first need to have [Node.js](https://nodejs.org/) 
 Then, you can install Amnesiac globally via npm:
 
 ```bash
-npm install -g amnesiac
+npm install -g @nueldotdev/amnesiac
 ```
 
 This will make the `amnesiac` command available from any directory in your terminal.
@@ -50,7 +50,7 @@ This will make the `amnesiac` command available from any directory in your termi
 To update your globally installed Amnesiac to the latest version, simply run:
 
 ```bash
-npm update -g amnesiac
+npm update -g @nueldotdev/amnesiac
 ```
 
 ## Getting Started
