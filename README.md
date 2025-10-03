@@ -23,6 +23,7 @@ Amnesiac is a CLI tool for keeping track of what’s changed in your code. It lo
   - [Getting Your API Key](#getting-your-api-key)
   - [Keeping Your API Key Secure](#keeping-your-api-key-secure)
   - [Understanding Gemini Models](#understanding-gemini-models)
+ - [Changelog](#changelog)
 
 ## Features
 
@@ -100,7 +101,7 @@ You can create an `amnesiac.config.js` file in the root of your project to defin
 ```javascript
 export default {
   apiKey: process.env.GEMINI_API_KEY, // Can be sourced from environment variables
-  model: "gemini-1.5-pro",
+  model: "gemini-2.5-flash",
   outputFile: "PROJECT_CHANGELOG.md",
   prompt: `
   Generate a comprehensive changelog entry focusing on new features and bug fixes for this project.
@@ -121,7 +122,7 @@ The main command to generate a changelog entry. It uses the configuration determ
 ```bash
 amnesiac
 amnesiac -p "Custom prompt for this run" # Override prompt for a single run
-amnesiac -m "gemini-pro" # Override model for a single run
+amnesiac -m "gemini-2.5-flash" # Override model for a single run
 amnesiac -u work # Use 'work' profile for a single run
 ```
 
@@ -220,9 +221,13 @@ Your API key is a sensitive credential. Treat it like a password:
 
 ### Understanding Gemini Models
 
-The `model` parameter (e.g., `gemini-1.5-flash`, `gemini-1.5-pro`) determines which Gemini model Amnesiac uses for content generation.
+The `model` parameter (e.g., `gemini-2.5-flash`, `gemini-2.5-pro`) determines which Gemini model Amnesiac uses for content generation.
 
--   **`gemini-1.5-flash`:** A faster, more cost-effective model, suitable for many common tasks. This is the default.
--   **`gemini-1.5-pro`:** A more capable model for complex tasks, offering higher quality but potentially at a higher latency or cost.
+-   **`gemini-2.5-flash`:** A faster, more cost-effective model, suitable for many common tasks. This is the default.
+-   **`gemini-2.5-pro`:** A more capable model for complex tasks, offering higher quality but potentially at a higher latency or cost.
 
 You can specify the model in your global or local configurations, or override it for a single run using `amnesiac -m <model_name>`. Refer to the [Gemini API documentation](https://ai.google.dev/models/gemini) for the latest information on available models and their capabilities.
+
+## Changelog
+
+See full history in [CHANGELOG.md](./CHANGELOG.md).

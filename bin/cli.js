@@ -26,7 +26,7 @@ program
     const localConfigPath = path.resolve(process.cwd(), "amnesiac.config.js");
     const defaultConfigContent = `export default {
   apiKey: process.env.GEMINI_API_KEY || "", // Consider adding a placeholder for API key
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   outputFile: "CHANGELOG.md",
   prompt: \`
 You are an assistant that generates clean, developer-friendly changelog entries.
@@ -200,7 +200,7 @@ program
           type: "input",
           name: "model",
           message: "Enter model name:",
-          default: existingConfig.model || "gemini-1.5-flash",
+          default: existingConfig.model || "gemini-2.5-flash",
         },
         {
           type: "input",

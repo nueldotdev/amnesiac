@@ -6,6 +6,7 @@
 !lib/
 !package.json
 !README.md
+!CHANGELOG.md
 !LICENSE
 
 # Ignore config, test, and local files
