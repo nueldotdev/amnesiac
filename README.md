@@ -80,6 +80,29 @@ npm update -g @nueldotdev/amnesiac
     - Receive a concise changelog entry.
     - Prepend the new entry to your `CHANGELOG.md` file (or the file specified in your config).
 
+### Preview/edit workflow (recommended)
+
+If you want to review and tweak the generated entry before it is written to your changelog, use `--dry-run`:
+
+```bash
+amnesiac --dry-run
+```
+
+This flow will:
+
+- Open a temporary `.md` file containing the generated entry in your default editor
+- Let you edit it
+- Ask you to confirm before saving it to your changelog
+
+**Important (Windows/editor note):** some editors don't allow the CLI to reliably detect when the file is closed. After you edit the temp file, **save it in your editor (Ctrl+S)**, then return to the terminal and press Enter when prompted.
+
+### Safety: backups and recovery
+
+When saving to your changelog file, Amnesiac writes safely:
+
+- If a changelog file already exists, it may create a best-effort backup alongside it (e.g. `CHANGELOG.md.bak.<timestamp>`).
+- If saving fails (permissions/locked file/etc.), Amnesiac will write a **recovery copy** to your OS temp directory and print the path so you don't lose the generated/edited entry.
+
 ## Configuration & Profiles
 
 Amnesiac offers a flexible configuration system that allows you to manage settings at different levels: per-project, globally, or as a one-off CLI override.
@@ -124,6 +147,18 @@ amnesiac
 amnesiac -p "Custom prompt for this run" # Override prompt for a single run
 amnesiac -m "gemini-2.5-flash" # Override model for a single run
 amnesiac -u work # Use 'work' profile for a single run
+amnesiac -d # Preview/edit in your editor before saving
+```
+
+### `amnesiac show-git`
+
+Display the current Git status or diff for the repository you are currently in.
+
+**Usage:**
+
+```bash
+amnesiac show-git --status
+amnesiac show-git --diff
 ```
 
 ### `amnesiac init`
