@@ -1,6 +1,6 @@
 {
   "name": "@nueldotdev/amnesiac",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A command-line tool to automatically generate documentation for recent codebase changes using the Gemini API.",
   "keywords": [
     "cli-tool",
