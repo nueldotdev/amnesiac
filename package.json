@@ -34,6 +34,8 @@
     "@google/generative-ai": "^0.24.1",
     "commander": "^14.0.1",
     "inquirer": "^12.9.6",
-    "simple-git": "^3.28.0"
+    "open": "^11.0.0",
+    "simple-git": "^3.28.0",
+    "update-notifier": "^7.3.1"
   }
 }

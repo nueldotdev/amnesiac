@@ -6,6 +6,7 @@ import os from "os";
 import inquirer from "inquirer";
 import { generateDocs } from "../lib/doc_generator.js";
 import { loadConfig } from "../lib/config.js";
+import { previewAndEditChangelog, saveChangelogEntry, persistRecoveryCopy } from "../lib/display.js";
 import { readFileSync } from 'fs';
 
 const program = new Command();
@@ -112,6 +113,41 @@ program
       process.exit(1);
     }
   });
+
+
+program
+  .command("show-git")
+  .option("-s, --status", "Display the status of the files within the repository")
+  .option("-d, --diff", "Display the changes within the files of the repository")
+  .description("Display the current status or changes in your Git repository")
+  .action(async (options) => {
+    // Only allow one of --status or --diff at a time
+    if (options.status && options.diff) {
+      console.error("\n❌ You can only use one of --status or --diff at a time.\n");
+      process.exit(1);
+    }
+    if (!options.status && !options.diff) {
+      console.error("\n❌ Please specify either --status or --diff.\n");
+      process.exit(1);
+    }
+
+    try {
+      if (options.status) {
+        const { getStatus } = await import('../lib/git.js');
+        const statusStr = await getStatus();
+        console.log("\n--- Git Status ---\n" + statusStr + "\n");
+      } else if (options.diff) {
+        const { getDiff } = await import('../lib/git.js');
+        const { displayChanges } = await import('../lib/display.js');
+        const diffStr = await getDiff();
+        await displayChanges(diffStr);
+      }
+    } catch (error) {
+      console.error(`\n❌ An error occurred while displaying git info: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
 
 program
   .command("config")
@@ -258,15 +294,58 @@ program
     }
   });
 
-program
+  program
+  .option("-d, --dry-run", "Preview and edit before saving")
   .option("-u, --use <profile>", "Use a specific profile for this run")
   .option("-p, --prompt <text>", "Override prompt")
   .option("-m, --model <name>", "Override model")
-  // Future: .option("-u, --use <profile>", "Use specific profile")
   .action(async (opts) => {
     try {
       const config = await loadConfig(opts);
-      await generateDocs(config);
+      const changelogEntry = await generateDocs(config);
+      
+      if (!changelogEntry) {
+        return; // No changes detected
+      }
+
+      if (opts.dryRun) {
+        // Preview and let user edit/confirm
+        console.log("\n🔄 Previewing changelog entry. \nYou can review and edit before saving");
+        const { content, shouldSave, wasModified } = await previewAndEditChangelog(changelogEntry);
+
+        if (shouldSave) {
+          let savedPath;
+          try {
+            savedPath = saveChangelogEntry(config, content);
+          } catch (e) {
+            const recoveryPath = persistRecoveryCopy(content, "save_failed");
+            console.error(`\n❌ Failed to save changelog: ${e.message}`);
+            console.error(`✅ Your generated entry was saved for recovery at: ${recoveryPath}\n`);
+            process.exit(1);
+          }
+
+          if (wasModified) {
+            console.log(`✅ Your edited changelog has been saved to ${savedPath}`);
+          } else {
+            console.log(`✅ Changelog updated at ${savedPath}`);
+          }
+        } else {
+          console.log("❌ Changelog not saved.");
+        }
+      } else {
+        // No preview, just save
+        console.log("🔄 Saving changelog entry...");
+        let savedPath;
+        try {
+          savedPath = saveChangelogEntry(config, changelogEntry);
+        } catch (e) {
+          const recoveryPath = persistRecoveryCopy(changelogEntry, "save_failed");
+          console.error(`\n❌ Failed to save changelog: ${e.message}`);
+          console.error(`✅ Your generated entry was saved for recovery at: ${recoveryPath}\n`);
+          process.exit(1);
+        }
+        console.log(`✅ Changelog updated at ${savedPath}`);
+      }
     } catch (error) {
       console.error(`\n❌ An error occurred: ${error.message}`);
       process.exit(1);
